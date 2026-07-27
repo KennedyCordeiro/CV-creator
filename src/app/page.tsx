@@ -48,17 +48,12 @@ export default function Home() {
     setResult(null);
 
     try {
-      // 1. Extrair texto do PDF
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const extractRes = await fetch("/api/extract-pdf", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!extractRes.ok) console.log("Falha ao extrair PDF");
-      const { text: baseResume } = await extractRes.json();
+      // 1. Extrair texto do PDF no lado do cliente
+      const { PDFParse } = await import("pdf-parse");
+      const arrayBuffer = await file.arrayBuffer();
+      const parser = new PDFParse({ data: new Uint8Array(arrayBuffer) });
+      const parseResult = await parser.getText();
+      const baseResume = parseResult.text;
 
       // 2. Gerar Currículo Adaptado com IA
       const generateRes = await fetch("/api/generate-resume", {
@@ -67,15 +62,22 @@ export default function Home() {
         body: JSON.stringify({ baseResume, jobDescription, language }),
       });
 
-      console.log(generateRes);
-      if (!generateRes.ok) throw new Error("Falha ao gerar o currículo com IA");
+      if (!generateRes.ok) {
+        const errData = await generateRes.json().catch(() => ({}));
+        throw new Error(errData.error || "Falha ao gerar o currículo com IA");
+      }
+
       const generatedData = await generateRes.json();
 
       setResult(generatedData);
       localStorage.setItem("lastResumeData", JSON.stringify(generatedData));
     } catch (error) {
       console.error(error);
-      alert("Ocorreu um erro ao processar. Verifique o console.");
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Ocorreu um erro ao processar. Verifique o console.";
+      alert(errorMessage);
     } finally {
       setIsLoading(false);
     }
