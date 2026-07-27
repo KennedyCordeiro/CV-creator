@@ -50,8 +50,7 @@ export default function Home() {
     try {
       // 1. Extrair texto do PDF no lado do cliente
       const { PDFParse } = await import("pdf-parse");
-      const pdfjsLib = await import("pdfjs-dist");
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.4.296/pdf.worker.min.mjs";
+      PDFParse.setWorker("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.4.296/pdf.worker.min.mjs");
       
       const arrayBuffer = await file.arrayBuffer();
       const parser = new PDFParse({ data: new Uint8Array(arrayBuffer) });
