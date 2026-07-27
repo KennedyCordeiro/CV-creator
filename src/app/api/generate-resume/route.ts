@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API || "");
 
@@ -10,19 +13,19 @@ export async function POST(req: NextRequest) {
     if (!baseResume || !jobDescription) {
       return NextResponse.json(
         { error: "Currículo base e descrição da vaga são obrigatórios" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!process.env.GEMINI_API) {
       return NextResponse.json(
         { error: "API Key do Gemini não configurada" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: "gemini-3.6-flash",
       generationConfig: {
         responseMimeType: "application/json",
       },
@@ -44,15 +47,16 @@ ${jobDescription}
 Retorne um objeto JSON ESTRITAMENTE com a seguinte estrutura e preencha todos os campos da melhor forma:
 {
   "header": {
-    "name": "Nome do Candidato (extraia do currículo base)",
-    "email": "Email (extraia do currículo base)",
-    "phone": "Telefone (extraia do currículo base)",
-    "location": "Localização (extraia do currículo base)",
-    "linkedin": "URL do LinkedIn (se houver)",
-    "github": "URL do GitHub (se houver)"
+    "name": "Kennedy Cordeiro - ${process.env.CLIENT_TITLE}",
+    "email": "${process.env.CLIENT_MAIL || ""}",
+    "phone": "${process.env.CLIENT_NUMBER || ""}",
+    "location": "Ceará",
+    "linkedin": "${process.env.CLIENT_LINKEDIN || ""}",
+    "github": "https://github.com/kennedycordeiro"
   },
   "summary": "Um resumo profissional impactante (3 a 4 frases) focando no alinhamento com a vaga.",
-  "experience": [
+  "experience": (Em experiências mantenha os dados mais importantes e que condizem com a descrição da vaga, não retire dados que condizem com a descrição da vaga e mantenha no mínimo 2 linhas para cada ponto de destaque)
+  [
     {
       "company": "Nome da Empresa",
       "position": "Cargo",
@@ -78,16 +82,18 @@ Retorne um objeto JSON ESTRITAMENTE com a seguinte estrutura e preencha todos os
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    
-    const cleanJson = text.replace(/^```json\n?/, '').replace(/\n?```$/, '');
-    
-    return NextResponse.json(JSON.parse(cleanJson));
 
+    const cleanJson = text.replace(/^```json\n?/, "").replace(/\n?```$/, "");
+
+    return NextResponse.json(JSON.parse(cleanJson));
   } catch (error) {
     console.error("Erro ao gerar currículo:", error);
     return NextResponse.json(
-      { error: "Falha ao gerar o currículo com a IA" },
-      { status: 500 }
+      {
+        error: "Falha ao gerar o currículo com a IA",
+        details: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 },
     );
   }
 }
