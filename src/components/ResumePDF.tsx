@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     paddingBottom: 5,
+    marginBottom: 10,
   },
   name: {
     fontSize: 18,
