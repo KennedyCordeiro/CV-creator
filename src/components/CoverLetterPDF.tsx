@@ -1,20 +1,34 @@
 import React from "react";
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import { Page, Text, View, Document, StyleSheet, Font } from "@react-pdf/renderer";
+
+Font.register({
+  family: 'Google Sans',
+  fonts: [
+    { src: '/fonts/GoogleSans-Regular.ttf' },
+    { src: '/fonts/GoogleSans-Medium.ttf', fontWeight: 500 },
+    { src: '/fonts/GoogleSans-SemiBold.ttf', fontWeight: 600 },
+    { src: '/fonts/GoogleSans-Bold.ttf', fontWeight: 700 },
+    { src: '/fonts/GoogleSans-Italic.ttf', fontStyle: 'italic' },
+    { src: '/fonts/GoogleSans-MediumItalic.ttf', fontWeight: 500, fontStyle: 'italic' },
+    { src: '/fonts/GoogleSans-SemiBoldItalic.ttf', fontWeight: 600, fontStyle: 'italic' },
+    { src: '/fonts/GoogleSans-BoldItalic.ttf', fontWeight: 700, fontStyle: 'italic' }
+  ]
+});
 
 const styles = StyleSheet.create({
   page: {
     padding: 40,
-    fontFamily: "Helvetica",
     fontSize: 12,
     color: "#333",
     lineHeight: 1.6,
+    fontFamily: "Google Sans",
   },
   header: {
     marginBottom: 40,
   },
   name: {
     fontSize: 20,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "Google Sans",
     marginBottom: 5,
     color: "#000",
   },

@@ -31,6 +31,7 @@ export default function Home() {
     const saved = localStorage.getItem("lastResumeData");
     if (saved) {
       try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setResult(JSON.parse(saved));
       } catch (e) {
         console.error(e);
@@ -50,8 +51,10 @@ export default function Home() {
     try {
       // 1. Extrair texto do PDF no lado do cliente
       const { PDFParse } = await import("pdf-parse");
-      PDFParse.setWorker("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.4.296/pdf.worker.min.mjs");
-      
+      PDFParse.setWorker(
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.4.296/pdf.worker.min.mjs",
+      );
+
       const arrayBuffer = await file.arrayBuffer();
       const parser = new PDFParse({ data: new Uint8Array(arrayBuffer) });
       const parseResult = await parser.getText();

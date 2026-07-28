@@ -6,25 +6,52 @@ import {
   Document,
   StyleSheet,
   Link,
+  Font,
 } from "@react-pdf/renderer";
+
+Font.register({
+  family: "Google Sans",
+  fonts: [
+    { src: "/fonts/GoogleSans-Regular.ttf" },
+    { src: "/fonts/GoogleSans-Medium.ttf", fontWeight: 500 },
+    { src: "/fonts/GoogleSans-SemiBold.ttf", fontWeight: 600 },
+    { src: "/fonts/GoogleSans-Bold.ttf", fontWeight: 700 },
+    { src: "/fonts/GoogleSans-Italic.ttf", fontStyle: "italic" },
+    {
+      src: "/fonts/GoogleSans-MediumItalic.ttf",
+      fontWeight: 500,
+      fontStyle: "italic",
+    },
+    {
+      src: "/fonts/GoogleSans-SemiBoldItalic.ttf",
+      fontWeight: 600,
+      fontStyle: "italic",
+    },
+    {
+      src: "/fonts/GoogleSans-BoldItalic.ttf",
+      fontWeight: 700,
+      fontStyle: "italic",
+    },
+  ],
+});
 
 const styles = StyleSheet.create({
   page: {
     padding: 30,
-    fontFamily: "Helvetica",
+    fontFamily: "Google Sans",
     fontSize: 11,
     color: "#333",
     lineHeight: 1.4,
   },
   header: {
-    marginBottom: 20,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
-    paddingBottom: 10,
+    paddingBottom: 5,
   },
   name: {
     fontSize: 18,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "Google Sans",
+    fontWeight: 700,
     marginBottom: 8,
     color: "#000",
     // lineHeight: 1.2,
@@ -42,7 +69,8 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 14,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "Google Sans",
+    fontWeight: 700,
     color: "#000",
     marginBottom: 8,
     textTransform: "uppercase",
@@ -59,11 +87,13 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   jobTitle: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "Google Sans",
+    fontWeight: 700,
     color: "#000",
   },
   company: {
-    fontFamily: "Helvetica-Oblique",
+    fontFamily: "Google Sans",
+    fontStyle: "italic",
   },
   period: {
     fontSize: 10,

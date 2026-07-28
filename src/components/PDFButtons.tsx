@@ -9,11 +9,8 @@ import { Download } from "lucide-react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const PDFButtons = ({ data }: { data: any }) => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const [isClient, setIsClient] = useState(true);
+  console.log(setIsClient);
 
   if (!isClient || !data) return null;
 
