@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Loader2, UploadCloud, FileText } from "lucide-react";
+import { Loader2, UploadCloud, FileText, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { PDFButtons } from "@/components/PDFButtons";
 
@@ -140,24 +140,6 @@ export default function Home() {
             </Card>
 
             <Card>
-              <CardHeader>
-                <CardTitle>2. A Vaga Desejada</CardTitle>
-                <CardDescription>
-                  Cole o texto completo da descrição da vaga (requisitos,
-                  diferenciais).
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Textarea
-                  placeholder="Cole a descrição da vaga aqui..."
-                  className="min-h-50"
-                  value={jobDescription}
-                  onChange={(e) => setJobDescription(e.target.value)}
-                />
-              </CardContent>
-            </Card>
-
-            <Card>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
@@ -190,6 +172,38 @@ export default function Home() {
                     "Adaptar Currículo"
                   )}
                 </Button>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-4">
+                <div className="space-y-1">
+                  <CardTitle>2. A Vaga Desejada</CardTitle>
+                  <CardDescription>
+                    Cole o texto completo da descrição da vaga (requisitos,
+                    diferenciais).
+                  </CardDescription>
+                </div>
+                <Button
+                  size="icon"
+                  onClick={handleGenerate}
+                  disabled={isLoading || !file || !jobDescription}
+                  title="Gerar Currículo Mágico"
+                  className="bg-gray-600 hover:bg-gray-700 text-white shrink-0">
+                  {isLoading ? (
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                  ) : (
+                    <Sparkles className="h-5 w-5" />
+                  )}
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <Textarea
+                  placeholder="Cole a descrição da vaga aqui..."
+                  className="min-h-50"
+                  value={jobDescription}
+                  onChange={(e) => setJobDescription(e.target.value)}
+                />
               </CardContent>
             </Card>
           </motion.div>
