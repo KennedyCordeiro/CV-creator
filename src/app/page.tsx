@@ -26,7 +26,6 @@ export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [result, setResult] = useState<any>(null);
 
-  // Load from local storage on mount
   useEffect(() => {
     const saved = localStorage.getItem("lastResumeData");
     if (saved) {
@@ -49,7 +48,6 @@ export default function Home() {
     setResult(null);
 
     try {
-      // 1. Extrair texto do PDF no lado do cliente
       const { PDFParse } = await import("pdf-parse");
       PDFParse.setWorker(
         "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/5.4.296/pdf.worker.min.mjs",
@@ -60,7 +58,6 @@ export default function Home() {
       const parseResult = await parser.getText();
       const baseResume = parseResult.text;
 
-      // 2. Gerar Currículo Adaptado com IA
       const generateRes = await fetch("/api/generate-resume", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -100,7 +97,6 @@ export default function Home() {
         </header>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Seção de Entrada */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -154,7 +150,7 @@ export default function Home() {
               <CardContent>
                 <Textarea
                   placeholder="Cole a descrição da vaga aqui..."
-                  className="min-h-[200px]"
+                  className="min-h-50"
                   value={jobDescription}
                   onChange={(e) => setJobDescription(e.target.value)}
                 />
@@ -191,14 +187,13 @@ export default function Home() {
                       Analisando e Adaptando...
                     </>
                   ) : (
-                    "Adaptar Currículo Mágicamente"
+                    "Adaptar Currículo"
                   )}
                 </Button>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Seção de Resultado */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -224,7 +219,7 @@ export default function Home() {
 
                       <TabsContent
                         value="resume"
-                        className="mt-4 p-4 bg-white border rounded-lg min-h-[400px] text-sm overflow-y-auto max-h-[600px]">
+                        className="mt-4 p-4 bg-white border rounded-lg min-h-100 text-sm overflow-y-auto max-h-150">
                         <h2 className="text-xl font-bold mb-1">
                           {result.header.name}
                         </h2>
