@@ -159,7 +159,7 @@ export default function Home() {
             </Card>
 
             <Card>
-              <CardContent className="pt-6 space-y-4">
+              <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label className="text-base">Idioma do Resultado</Label>

@@ -49,7 +49,6 @@ Retorne um objeto JSON ESTRITAMENTE com a seguinte estrutura e preencha todos os
   "header": {
     "name": "Kennedy Cordeiro - ${process.env.CLIENT_TITLE}",
     "email": "${process.env.CLIENT_MAIL || ""}",
-    "phone": "${process.env.CLIENT_NUMBER || ""}",
     "location": "Ceará",
     "linkedin": "${process.env.CLIENT_LINKEDIN || ""}",
     "github": "https://github.com/kennedycordeiro"
